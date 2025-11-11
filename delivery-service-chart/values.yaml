@@ -1,0 +1,78 @@
+replicaCount: 2
+
+image:
+  repository: delivery_service-delivery_service
+  pullPolicy: Never
+  tag: "latest"
+
+database:
+  host: delivery-db-service
+  port: 5432
+  name: delivery
+  secretName: db-credentials-secret
+  usernameKey: POSTGRES_USER
+  passwordKey: POSTGRES_PASSWORD
+
+imagePullSecrets: []
+nameOverride: "delivery-service"
+fullnameOverride: "delivery-service"
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+service:
+
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+  - name: gateway
+    sectionName: http
+  hostnames:
+  - chart-example.local
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /headers
+
+
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+volumes: []
+volumeMounts: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

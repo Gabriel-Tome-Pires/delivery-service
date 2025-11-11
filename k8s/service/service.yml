@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: delivery-service
+  namespace: e-commerce
+spec:
+  selector:
+    app: delivery-service
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: ClusterIP
